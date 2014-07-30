@@ -259,7 +259,11 @@ class Thumber {
     $source = array();
     $source["url"] = trim($this->EE->TMPL->fetch_param('src'));
 
-    $source["fullpath"] = $this->get_fullpath_from_url($source["url"]);
+    // allow path below root with 'path' parameter
+    $source["fullpath"] = trim($this->EE->TMPL->fetch_param('path'));
+    if(!$source["fullpath"]) {
+    	$source["fullpath"] = $this->get_fullpath_from_url($source["url"]);
+    }
 
     if(!$source["fullpath"]) {
       return;
