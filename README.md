@@ -19,7 +19,8 @@ _Thumber_ generates thumbnails from your PDFs. You can call _thumber_ using a si
  - `extension`: The file type of the generated thumbnail ___[Default: png]___
  - `link`: Wrap the thumbnail in a link to the PDF ___[Default: no]___
  - `crop`: Where `width` and `height` are both specified, crop to preserve aspect ratio ___[Default: yes]___
- - `url_only`: Return the url of the image only [Default: no]
+ - `url_only`: Return the url of the image only ___[Default: no]___
+ - `path`: Override the base path for images above the web root
 
 Any other parameters will be added to the `img` tag in the the generated html snippet – so if you want to add an `id` or `class`, just add them as parameters.
 
