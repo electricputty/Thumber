@@ -299,7 +299,7 @@ class Thumber {
     $dest["url"] = reduce_double_slashes($this->thumb_cache_rel_dirname . '/' . $dest["basename"]);
 
     // check whether we have a cached version of the thumbnail
-    if (!file_exists($dest["fullpath"])) {
+    if ($this->should_generate_thumbnail($source['fullpath'], $dest['fullpath'])) {
       // if it isn't, generate the thumbnail
       $success = $this->generate_conversion($source, $dest);
       if(!$success) {
@@ -327,7 +327,29 @@ class Thumber {
 
   }
 
-
+  /**
+   * determine whether or not a new thumbnail image should be created
+   * conditions for a TRUE response are: if the destination thumbnail doesn't already exist OR if the source
+   * file is NEWER than the destination thumbnail file
+   *
+   * @param  string $source_path absolute path on the filesystem of the file used to generate the thumbnail
+   * @param  string $dest_path   absolute path on the filesystem for the destination thumbnail to be placed
+   * @return bool              true if a thumbnail should be created, false if not.
+   */
+  protected function should_generate_thumbnail($source_path, $dest_path)
+  {
+    if (!file_exists($dest_path))
+    {
+      return true;
+    }
+    
+    if (filemtime($source_path) > filemtime($dest_path))
+    {
+      return true;
+    }
+    
+    return false;
+  }
   // ----------------------------------------------------------------
 
   /**
