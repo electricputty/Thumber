@@ -132,9 +132,11 @@ class Thumber {
    */
   private function lib_check()
   {
-    if (exec($this->convert_bin . " -version 2>&1")) {
-      $this->EE->TMPL->log_item('**Thumber** Can\'t find ImageMagick on your server.');
-      return false;
+    if (exec($this->convert_bin . " -version 2>&1"), $output) {
+        if (!preg_match("/(ImageMagick [\d]+[\.][\d]+)/", $output[0])) {
+            $this->EE->TMPL->log_item('**Thumber** Can\'t find ImageMagick on your server.');
+            return false;
+        }
     }
 
     if (!is_numeric(exec($this->gs_bin . " --version 2>&1"))) {
